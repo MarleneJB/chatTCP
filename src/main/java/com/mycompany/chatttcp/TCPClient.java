@@ -14,7 +14,7 @@ public class TCPClient {
         socket = new Socket(serverIP, serverPort);
         this.username = username;
         
-       this.ui = new ChatClientUI(this);
+        this.ui = new ChatClientUI(this);
 
         writer = new PrintWriter(socket.getOutputStream(), true);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -52,27 +52,18 @@ public class TCPClient {
     }
 
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Dirección IP del servidor: ");
-        String serverIP = scanner.nextLine();
+        String serverIP ="192.168.137.226";
 
-        
         int serverPort = 12345;
 
-        System.out.print("Ingresa tu nombre de usuario: ");
-        scanner.nextLine();
-        String username = scanner.nextLine();
+        String username = "jazael";
+
 
         TCPClient client = new TCPClient(serverIP, serverPort, username);
         client.receiveMessages();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             client.disconnect();
         }));
-        while (true) {
-            System.out.print("Mensaje: ");
-            String message = scanner.nextLine();
-            client.sendMessage(message);
-        }
     }
 }
