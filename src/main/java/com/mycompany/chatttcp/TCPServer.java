@@ -11,8 +11,8 @@ public class TCPServer {
     private HashMap<String, Socket> clients = new HashMap<>();
     private ArrayList<String> users = new ArrayList<>();
     
-    public TCPServer(int port) throws IOException {
-        serverSocket = new ServerSocket(port);
+    public TCPServer(String ipAddress,int port, int backlog) throws IOException {
+        serverSocket = new ServerSocket(port,backlog, InetAddress.getByName(ipAddress));
     }
 
     private void handleConnection(Socket clientSocket, String username) throws IOException {
@@ -94,8 +94,10 @@ public class TCPServer {
 
     public static void main(String[] args) {
         int port = 12345; 
+        String ipAddress = "192.168.137.226";
+        int backlog = 40;
         try {
-            TCPServer server = new TCPServer(port);
+            TCPServer server = new TCPServer(ipAddress, port,backlog);
             server.listen();
         } catch (IOException e) {
             System.err.println("Error al iniciar el servidor: " + e.getMessage());
