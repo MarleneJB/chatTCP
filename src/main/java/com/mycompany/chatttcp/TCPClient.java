@@ -8,15 +8,18 @@ public class TCPClient {
     private String username;
     private PrintWriter writer;
     private BufferedReader reader;
+    private ChatClientUI ui;
 
     public TCPClient(String serverIP, int serverPort, String username) throws IOException {
         socket = new Socket(serverIP, serverPort);
         this.username = username;
+        
+       this.ui = new ChatClientUI(this);
 
         writer = new PrintWriter(socket.getOutputStream(), true);
         reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-        // Enviar mensaje de conexión
+
         sendMessage("CONNECT");
     }
 
